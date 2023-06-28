@@ -4,7 +4,8 @@ import {
 } from 'vue-router';
 
 import HomePage from '@/HomePage.vue'
-import BarChart from '@/charts/BarChart.vue'
+import SampleBarChart from '@/charts/SampleBarChart.vue'
+import BarChartData from '@/charts/BarChartData.vue'
 
 const routes = [{
     'path': '/',
@@ -13,7 +14,12 @@ const routes = [{
     {
         'path': '/barChart',
         'name': 'BarChart',
-        component: BarChart 
+        component: SampleBarChart 
+    },
+    {
+        'path': '/barChartData',
+        'name': 'BarChartData',
+        component: BarChartData 
     },
 ]
 

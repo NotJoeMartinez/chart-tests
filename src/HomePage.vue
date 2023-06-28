@@ -10,7 +10,10 @@
             <div class="col-md">
                 <ul>
                     <li>
-                        <router-link to="/barchart">Bar chart</router-link>
+                        <router-link to="/barchart">Sample Bar chart</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/barchartdata">Bar chart with user data</router-link>
                     </li>
                 </ul>
             </div>

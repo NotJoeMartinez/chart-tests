@@ -6,27 +6,13 @@
         <canvas id="barChart"></canvas>
     </div>
 
-
-    <!-- <div class="container" id="barChartContainer">
-      <div class="row">
-        <div class="col-2">
-          left
-       </div>
-      <div class="col-8">
-        <canvas id="barChart"></canvas>
-      </div>
-      <div class="col-2">
-        right
-      </div>
-    </div>
-    </div> -->
 </template>
   
 <script>
 import { graphBarChart } from '@/scripts/barChart.js' 
 
   export default {
-    name: 'BarChart',
+    name: 'SampleBarChart',
     props: {
       msg: String
     },
