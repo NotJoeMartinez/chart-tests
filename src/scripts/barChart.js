@@ -26,60 +26,6 @@ export function graphBarChart() {
           }
         }
       });
-    // const barChart = new Chart(ctx, {
-    //   type: "bar",
-    //   label: "Results",
-    //   data: {
-    //   labels: labels,
-    //   datasets: [
-    //     {
-    //     label: "times used",
-    //     data: values,
-    //     borderWidth: 1
-    //   }
-    //   ]
-    // },
-    // options: {
-    //   responsive: true,
-    //   plugins: {
-    //     tooltip: {
-    //       callbacks: {
-    //         title: function (context) {
-    //           return context[0].label;
-    //         },
-    //         label: function (context) {
-    //           const winCount = allData[context.dataIndex].winCount;
-    //           const lossCount = allData[context.dataIndex].lossCount;
-    //           const drawCount = allData[context.dataIndex].drawCount;
-    //           return [
-    //             `Wins: ${winCount}`,
-    //             `Losses: ${lossCount}`,
-    //             `Draws: ${drawCount}`
-    //           ];
-    //         },
-    //       },
-    //     },
-    //   },
-    //   onClick: function (event, elements) {
-    //     if (elements.length) {
-    //       const dataIndex = elements[0].index;
-    //       const url = allData[dataIndex].url;
-    //       window.open(url, "_blank");
-    //     }
-    //   },
-    //   scales: {
-    //     y: {
-    //       beginAtZero: true
-    //     },
-    //     x: {
-    //       ticks: {
-    //           display: false
-    //      }
-    //   }
-    //   }
-    // }
-    // });
-    // console.debug("resByOp", resByOp)
-    // return resByOp;
+
 }
   
