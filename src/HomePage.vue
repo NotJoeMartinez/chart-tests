@@ -15,6 +15,9 @@
                     <li>
                         <router-link to="/barchartdata">Bar chart with user data</router-link>
                     </li>
+                    <li>
+                        <router-link to="/stackedbarchart">Stacked bar chart with random data</router-link>
+                    </li>
                 </ul>
             </div>
             <div class="col-sm">   

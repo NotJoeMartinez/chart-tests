@@ -6,6 +6,7 @@ import {
 import HomePage from '@/HomePage.vue'
 import SampleBarChart from '@/charts/SampleBarChart.vue'
 import BarChartData from '@/charts/BarChartData.vue'
+import StackedBarChart from '@/charts/StackedBarChart.vue'
 
 const routes = [{
     'path': '/',
@@ -20,6 +21,11 @@ const routes = [{
         'path': '/barChartData',
         'name': 'BarChartData',
         component: BarChartData 
+    },
+    {
+        'path': '/stackedBarChart',
+        'name': 'stackedBarChart',
+        component: StackedBarChart 
     },
 ]
 

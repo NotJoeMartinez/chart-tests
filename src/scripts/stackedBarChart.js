@@ -7,32 +7,36 @@ Chart.register(LinearScale, PointElement, Tooltip, Legend, TimeScale);
 
 export function graphBarChart(chartData) {
 
-    let ranges = getRanges(chartData);
-    let rangeLabels = getRangeLabels(ranges);
-    let rangeCounts = getRangeCounts(ranges, chartData);
-    console.log(rangeCounts)
+    // let ranges = getRanges(chartData);
+    // let rangeLabels = getRangeLabels(ranges);
+    // let rangeCounts = getRangeCounts(ranges, chartData);
+    // console.log(rangeCounts)
 
-    const DATA_COUNT = rangeLabels.length;
-    const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
-    const numbers = Utils.numbers(NUMBER_CFG)
+    const NUMBER_CFG = {count: 3, min: 0, max: 600};
+    const wins = [30, 40, 50, 60];
+    const losses = [10, 20, 30, 40];
+    const draws = [10, 20, 30, 40];
 
-    console.log("numbers", numbers);
-    console.log(typeof(numbers));
-
+    const labels = ['200-299', '300-399', '400-499', '500-599'];
     const ctx = document.getElementById("barChart");
     new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: rangeLabels,
+          labels: labels,
           datasets: [
             {
-            label: 'lol',
-            data: Utils.numbers(NUMBER_CFG),
+            label: 'Win',
+            data: wins,
             borderWidth: 1
           },
           {
-            label: 'lol2',
-            data: Utils.numbers(NUMBER_CFG),
+            label: 'Loss',
+            data: losses,
+            borderWidth: 1
+          },
+          {
+            label: 'Draw',
+            data: draws,
             borderWidth: 1
           }
         ]
@@ -44,7 +48,8 @@ export function graphBarChart(chartData) {
               stacked: true
             },
             x: {
-              stacked: true,
+                beginAtZero: true,
+                stacked: true
             }
           }
         }
