@@ -18,6 +18,7 @@ export function graphBarChart(chartData) {
     const draws = data["draw"]; 
 
 
+    console.log(rangeLabels)
     const ctx = document.getElementById("barChart");
     new Chart(ctx, {
         type: 'bar',
@@ -65,18 +66,26 @@ function getRanges(csvData) {
   let ranges = [];
 
   for (let i = 0; i < csvData.length; i++) {
-    if (csvData[i]["opponentRating"] > max) {
-      max = csvData[i]["opponentRating"];
+    let rating = Number(csvData[i]["opponentRating"]);
+
+    if (rating > max) {
+      max = rating;
     } 
-    if (csvData[i]["opponentRating"] < min) {
-      min = csvData[i]["opponentRating"];
+    if (rating < min) {
+      min = rating;
     }
   }
+  
   let current = 0;
   while (current <= max) {
     ranges.push(current+99);
     current += 100;
-  }
+  } 
+
+  console.log("min: " + min);
+  console.log("max: " + max);
+
+  console.log(ranges)
   return ranges;
 }
 
