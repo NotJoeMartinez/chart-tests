@@ -7,17 +7,16 @@ Chart.register(LinearScale, PointElement, Tooltip, Legend, TimeScale);
 
 export function graphBarChart(chartData) {
 
+
     let ranges = getRanges(chartData);
     let rangeLabels = getRangeLabels(ranges);
-    let rangeCounts = getRangeCounts(ranges, chartData);
-    console.log(rangeCounts)
 
-    const DATA_COUNT = rangeLabels.length;
-    const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
-    const numbers = Utils.numbers(NUMBER_CFG)
+    let data = makeDataSet(ranges, chartData);
 
-    console.log("numbers", numbers);
-    console.log(typeof(numbers));
+    const wins = data["win"]; 
+    const losses = data["loss"]; 
+    const draws = data["draw"]; 
+
 
     const ctx = document.getElementById("barChart");
     new Chart(ctx, {
@@ -26,15 +25,20 @@ export function graphBarChart(chartData) {
           labels: rangeLabels,
           datasets: [
             {
-            label: 'lol',
-            data: Utils.numbers(NUMBER_CFG),
-            borderWidth: 1
-          },
-          {
-            label: 'lol2',
-            data: Utils.numbers(NUMBER_CFG),
-            borderWidth: 1
-          }
+              label: 'Win',
+              data: wins,
+              borderWidth: 1
+            },
+            {
+              label: 'Loss',
+              data: losses,
+              borderWidth: 1
+            },
+            {
+              label: 'Draw',
+              data: draws,
+              borderWidth: 1
+            } 
         ]
         },
         options: {
@@ -105,17 +109,53 @@ function getRangeCounts(ranges, chartData) {
 }
 
 
-function makeDataSets(ranges, chartData){
+function makeDataSet(ranges, chartData){
 
-  let dataSets = [];
+  let dataSets = {};
 
   for (let i = 0; i < ranges.length; i++) {
-    dataSets.push({
-      label: ranges[i],
-      data: [],
-      borderWidth: 1
-    })
+    dataSets[ranges[i]] = {
+      "win": 0,
+      "loss": 0,
+      "draw": 0
+    };
   }
+
+
+  for (let i = 0; i < chartData.length; i++) {
+
+    for (let j = 0; j < ranges.length; j++) {
+
+      if (chartData[i]["opponentRating"] >= ranges[j] - 99 && chartData[i]["opponentRating"] <= ranges[j]) {
+        let result = chartData[i]["result"];
+
+        if (result == "win") {
+          dataSets[ranges[j]]["win"] += 1;
+        }
+        if (result == "resigned" || result == "checkmated" || result == "timeout") {
+          dataSets[ranges[j]]["loss"] += 1;
+        }
+        else {
+          dataSets[ranges[j]]["draw"] += 1;
+        }
+      } 
+    }
+
+  }
+
+
+  dataSets["win"] = [];
+  dataSets["loss"] = [];
+  dataSets["draw"] = [];
+
+  for (let i = 0; i < ranges.length; i++) {
+    dataSets["win"].push(dataSets[ranges[i]]["win"]);
+    dataSets["loss"].push(dataSets[ranges[i]]["loss"]);
+    dataSets["draw"].push(dataSets[ranges[i]]["draw"]);
+  }
+
+  console.log(dataSets);
+
   return dataSets;
 
 }

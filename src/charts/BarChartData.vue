@@ -6,10 +6,6 @@
         <canvas id="barChart"></canvas>
     </div>
 
-    <h1>CSV Data:</h1>
-    <div v-for="(row, index) in csvData" :key="index">
-      {{ row }}
-    </div>
 
 </template>
   
