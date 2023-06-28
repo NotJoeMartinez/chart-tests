@@ -28,14 +28,29 @@ export function graphBarChart(chartData) {
     let grey = "#888683"
     let red = "#8f3431"
 
-    const footer = (tooltipItems) => {
-      let sum = 0;
-    
-      tooltipItems.forEach(function(tooltipItem) {
-        sum += tooltipItem.parsed.y;
-      });
-      return 'Sum: ' + sum;
+    const title = (tooltipItems) => {
+      // let rangeIndex = tooltipItems[0].parsed.x;
+      // let rangeLabelX = rangeLabels[rangeIndex];
+      // let rangeKey = ranges[rangeIndex];
+      // let total = data[rangeKey]["total"] 
+
+      // let titleStr = `Range: ${rangeLabelX} Total: ${total}`;
+      let titleStr = "";
+
+      return titleStr;
     };
+
+    const footer = (tooltipItems) => {  
+      let rangeIndex = tooltipItems[0].parsed.x;
+      let rangeKey = ranges[rangeIndex];
+      let total = data[rangeKey]["total"] 
+      let range = rangeLabels[rangeIndex];
+
+      let afterLabelStr = `Elo Range: ${range}\nTotal Games: ${total}`;
+      return afterLabelStr;
+    }
+
+
 
     const ctx = document.getElementById("barChart");
     new Chart(ctx, {
@@ -76,15 +91,19 @@ export function graphBarChart(chartData) {
           plugins: {
             tooltip: {
               callbacks: {
+                title: title,
+                footer: footer,
                 label:  function(context) {
                   let label = context.dataset.label || '';
 
                  
                   if (context.parsed.y !== null) {
 
+
                       let rangeIndex = context.parsed.x;
                       let rangeKey = ranges[rangeIndex];
                       let rangeLabelY = context.parsed.y;
+
 
                       let labelOnHover = data[rangeKey][label.toLowerCase()];
 
@@ -97,7 +116,18 @@ export function graphBarChart(chartData) {
                   }
                   return label; 
                 }
+              },
+              bodyFont:{
+                weight: 'bold',
+              },
+              titleFont:{
+                size: 12,
+              },
+              footerFont: {
+                size: 10,
+                weight: 'normal'
               }
+
             }
           }
         }
@@ -157,7 +187,8 @@ function makeDataSet(ranges, chartData){
     dataSets[ranges[i]] = {
       "win": 0,
       "loss": 0,
-      "draw": 0
+      "draw": 0,
+      "total": 0
     };
   }
 
@@ -181,6 +212,11 @@ function makeDataSet(ranges, chartData){
       } 
     }
 
+  }
+
+  // add totals
+  for (let i = 0; i < ranges.length; i++) {
+    dataSets[ranges[i]]["total"] = dataSets[ranges[i]]["win"] + dataSets[ranges[i]]["loss"] + dataSets[ranges[i]]["draw"];
   }
 
 
