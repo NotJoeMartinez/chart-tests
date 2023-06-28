@@ -2,7 +2,7 @@
 import Papa from 'papaparse';
 import axios from 'axios';
 
-export async function readCSVData() {
+export function readCSVData() {
     axios.get('/data/rmasie599.csv')
       .then(response => {
         let csv = response.data;
@@ -10,6 +10,7 @@ export async function readCSVData() {
           header: true,
           complete: (results) => {
             let csvData = results.data;
+            console.log("here: CSV Data: ", csvData)
             return csvData;
           }
         });

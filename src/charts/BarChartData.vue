@@ -16,6 +16,7 @@
 <script>
 import { graphBarChart } from '@/scripts/barChartData.js' 
 
+
 import Papa from 'papaparse';
 import axios from 'axios';
 
@@ -32,29 +33,30 @@ import axios from 'axios';
 
     mounted() {
       this.readCSVData();
-      graphBarChart();
     },
 
+
     methods: {
+
     readCSVData() {
-      axios.get('/data/rmasie599.csv')
+      axios.get('/data/rmasie599_simple.csv')
         .then(response => {
           let csv = response.data;
           Papa.parse(csv, {
             header: true,
             complete: (results) => {
               this.csvData = results.data;
+              graphBarChart(this.csvData);
             }
           });
         })
         .catch(error => {
           console.log(error);
         });
-      console.log(this.csvData);
-    },
-  },
+    }
 
   }
+}
   </script>
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->

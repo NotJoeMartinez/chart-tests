@@ -36,3 +36,5 @@ src/data/*
 src/data/**/*
 public/data
 public/data/*
+
+*.xlsx
