@@ -1,4 +1,5 @@
-# chart_tests
+# chart tests
+A chart testing environment for [chess-insights](https://github.com/NotJoeMartinez/chess-insights)
 
 ## Project setup
 ```
