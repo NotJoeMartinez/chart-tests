@@ -35,7 +35,7 @@ import axios from 'axios';
     methods: {
 
     readCSVData() {
-      axios.get('/data/Hikaru_simple.csv')
+      axios.get('/data/test_user.csv')
         .then(response => {
           let csv = response.data;
           Papa.parse(csv, {

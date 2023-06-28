@@ -7,7 +7,6 @@ Chart.register(LinearScale, PointElement, Tooltip, Legend, TimeScale);
 
 export function graphBarChart(chartData) {
 
-
     let ranges = getRanges(chartData);
     let rangeLabels = getRangeLabels(ranges);
 
@@ -17,6 +16,9 @@ export function graphBarChart(chartData) {
     const losses = data["loss"]; 
     const draws = data["draw"]; 
 
+    let green = "#708641"
+    let grey = "#888683"
+    let red = "#8f3431"
 
     console.log(rangeLabels)
     const ctx = document.getElementById("barChart");
@@ -28,17 +30,20 @@ export function graphBarChart(chartData) {
             {
               label: 'Win',
               data: wins,
-              borderWidth: 1
+              borderWidth: 1,
+              backgroundColor: green, 
             },
             {
               label: 'Loss',
               data: losses,
-              borderWidth: 1
+              borderWidth: 1,
+              backgroundColor: red, 
             },
             {
               label: 'Draw',
               data: draws,
-              borderWidth: 1
+              borderWidth: 1,
+              backgroundColor: grey, 
             } 
         ]
         },
