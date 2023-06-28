@@ -12,15 +12,31 @@ export function graphBarChart(chartData) {
 
     let data = makeDataSet(ranges, chartData);
 
-    const wins = data["win"]; 
-    const losses = data["loss"]; 
-    const draws = data["draw"]; 
+    console.log(data)
+
+    const wins = data["winPercent"]; 
+    const losses = data["lossPercent"]; 
+    const draws = data["drawPercent"]; 
+
+    // const wins = data["win"]; 
+    // const losses = data["loss"]; 
+    // const draws = data["draw"]; 
+
+
 
     let green = "#708641"
     let grey = "#888683"
     let red = "#8f3431"
 
-    console.log(rangeLabels)
+    const footer = (tooltipItems) => {
+      let sum = 0;
+    
+      tooltipItems.forEach(function(tooltipItem) {
+        sum += tooltipItem.parsed.y;
+      });
+      return 'Sum: ' + sum;
+    };
+
     const ctx = document.getElementById("barChart");
     new Chart(ctx, {
         type: 'bar',
@@ -56,6 +72,33 @@ export function graphBarChart(chartData) {
             x: {
               stacked: true,
             }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label:  function(context) {
+                  let label = context.dataset.label || '';
+
+                 
+                  if (context.parsed.y !== null) {
+
+                      let rangeIndex = context.parsed.x;
+                      let rangeKey = ranges[rangeIndex];
+                      let rangeLabelY = context.parsed.y;
+
+                      let labelOnHover = data[rangeKey][label.toLowerCase()];
+
+
+                      if (label) {
+                        label += ': ';
+                      }
+
+                      label += `${labelOnHover} (${rangeLabelY}%)`
+                  }
+                  return label; 
+                }
+              }
+            }
           }
         }
       });
@@ -65,23 +108,24 @@ export function graphBarChart(chartData) {
 
 
 function getRanges(csvData) {
-  let max = 0;
-  let min = 0;
-
-  let ranges = [];
-
+  let oppRatingList = []; 
   for (let i = 0; i < csvData.length; i++) {
     let rating = Number(csvData[i]["opponentRating"]);
-
-    if (rating > max) {
-      max = rating;
-    } 
-    if (rating < min) {
-      min = rating;
+    if (isNaN(rating)) {
+      continue;
     }
+    oppRatingList.push(rating);
   }
+
+  let min = Math.min(...oppRatingList);
+  let max = Math.max(...oppRatingList);
+
   
-  let current = 0;
+  let ranges = [];
+  let current = Math.floor(min/100) * 100;
+
+  console.debug("min with round: " + min);
+
   while (current <= max) {
     ranges.push(current+99);
     current += 100;
@@ -90,36 +134,18 @@ function getRanges(csvData) {
   console.log("min: " + min);
   console.log("max: " + max);
 
-  console.log(ranges)
   return ranges;
 }
 
 
 function getRangeLabels(ranges) {
+  console.log("ranges: " + ranges)
   let rangeLabels = [];
   for (let i = 0; i < ranges.length; i++) {
     let start = ranges[i] - 99;
     rangeLabels.push(start + "-" + ranges[i]);
   }
   return rangeLabels;
-}
-
-
-function getRangeCounts(ranges, chartData) {
-  let rangeCounts = [];
-
-  for (let i = 0; i < ranges.length; i++) {
-    let count = 0;
-    for (let j = 0; j < chartData.length; j++) {
-      if (chartData[j]["opponentRating"] >= ranges[i] - 99 && chartData[j]["opponentRating"] <= ranges[i]) {
-        count++;
-      }
-    }
-    rangeCounts.push(count);
-  
-  }
-  return rangeCounts;
-
 }
 
 
@@ -168,7 +194,32 @@ function makeDataSet(ranges, chartData){
     dataSets["draw"].push(dataSets[ranges[i]]["draw"]);
   }
 
-  console.log(dataSets);
+  dataSets["winPercent"] = [];
+  dataSets["lossPercent"] = [];
+  dataSets["drawPercent"] = [];
+
+  for (let i=0; i <ranges.length; i++) {
+    let total = Number(dataSets["win"][i] + dataSets["loss"][i] + dataSets["draw"][i]);
+
+    let w = Math.round(dataSets["win"][i] / total * 100)
+    let l =  Math.round(dataSets["loss"][i] / total * 100)
+    let d =  Math.round(dataSets["draw"][i] / total * 100)
+
+    if (isNaN(w)) {
+      w = 0;
+    }
+    if (isNaN(l)) {
+      l = 0;
+    }
+
+    if (isNaN(d)) {
+      d = 0;
+    }
+
+    dataSets["winPercent"].push(w);
+    dataSets["lossPercent"].push(l);
+    dataSets["drawPercent"].push(d);
+  }
 
   return dataSets;
 
