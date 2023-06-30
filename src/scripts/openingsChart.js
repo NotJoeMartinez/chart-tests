@@ -5,13 +5,6 @@ import { LinearScale, PointElement, Tooltip, Legend, TimeScale } from 'chart.js'
 Chart.register(LinearScale, PointElement, Tooltip, Legend, TimeScale)
 
 export function makeOpeningsChart(openingsData) {
-
-    // const labels = ["Kings Pawn Opening", "Queens Pawn Opening", "Caro Kann Defense", "Vienna Game"];
-    // const counts =  [153, 120, 106, 65];
-    // const wins = [30, 40, 50, 60];
-    // const losses = [10, 20, 30, 40];
-    // const draws = [10, 20, 30, 40];
-
     const labels = openingsData.labels 
     const counts = openingsData.counts
     const wins = openingsData.wins
@@ -65,10 +58,22 @@ export function makeOpeningsChart(openingsData) {
       });
 
 }
+
+function getRanges(csvData) {
+  let oppRatingList = []; 
+  for (let i = 0; i < csvData.length; i++) {
+    const realObject = Object.assign({}, csvData[i]);
+    console.log(realObject)
+    let rating = Number(csvData[i]["opponentRating"]);
+    if (isNaN(rating)) {
+      continue;
+    }
+    oppRatingList.push(rating);
+  }
+}
   
-
-
-function processOpeningsData(openingsData, n) {
+  
+export function processOpeningsData(openingsData, n) {
     // Sort the data by count in descending order
     openingsData.sort((a, b) => b.count - a.count);
 

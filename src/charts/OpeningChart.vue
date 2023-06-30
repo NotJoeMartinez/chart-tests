@@ -24,39 +24,26 @@ export default {
         this.readCSVData();
     },
     methods: {
-
         readCSVData() {
             axios.get('/data/testData.csv')
-            .then(response => {
-                let csv = response.data;
-                Papa.parse(csv, {
-                    header: true,
-                    complete: (results) => {
-                        this.csvData = results.data;
-
-                        let csvDataArr = []
-                        for (let i = 0; i < this.csvData.length; i++) {
-                            let csvDataObj = {
-                                    "opening": this.csvData[i]["opening"],
-                                }
-                            csvDataArr.push(csvDataObj)
-                        }
-                        console.log("CSV Data: ", csvDataArr)
-
-                        let openingsData = processOpeningsData(csvDataArr);
-                        console.log("Sorted openings data: ", openingsData)
-                        makeOpeningsChart(openingsData);
-                    }
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        },
-
-
+        .then(response => {
+          let csv = response.data;
+          Papa.parse(csv, {
+            header: true,
+            complete: (results) => {
+              this.csvData = results.data;
+              let csvObj = JSON.parse(JSON.stringify(this.csvData));
+              let openingsData = processOpeningsData(csvObj, 10) 
+              makeOpeningsChart(openingsData);
+            }
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
 
     }
+}
 }
 
 </script>
