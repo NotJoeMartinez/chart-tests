@@ -35,13 +35,13 @@ export function makeOpeningsChart(gameArchive) {
           },
           {
             label: 'Draw',
-            data: losses,
+            data: draws,
             borderWidth: 0.5,
             backgroundColor: colors.GREY
           },
           {
             label: 'Loss',
-            data: draws,
+            data: losses,
             borderWidth: 0.5,
             backgroundColor: colors.RED
           }
