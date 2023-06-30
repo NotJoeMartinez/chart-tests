@@ -6,7 +6,7 @@ import * as Utils from  "@/scripts/utils.js"
 Chart.register(LinearScale, PointElement, Tooltip, Legend, TimeScale); 
 
 export function graphBarChart(chartData) {
-
+  console.log(chartData)
     let ranges = getRanges(chartData);
     let rangeLabels = getRangeLabels(ranges);
 
@@ -140,6 +140,7 @@ export function graphBarChart(chartData) {
 function getRanges(csvData) {
   let oppRatingList = []; 
   for (let i = 0; i < csvData.length; i++) {
+    console.log(csvData[i])
     let rating = Number(csvData[i]["opponentRating"]);
     if (isNaN(rating)) {
       continue;
@@ -203,7 +204,7 @@ function makeDataSet(ranges, chartData){
         if (result == "win") {
           dataSets[ranges[j]]["win"] += 1;
         }
-        if (result == "resigned" || result == "checkmated" || result == "timeout") {
+        if (result == "resigned" || result == "checkmated" || result == "timeout" || "abandoned") {
           dataSets[ranges[j]]["loss"] += 1;
         }
         else {
