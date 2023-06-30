@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import { processOpeningsData, makeOpeningsChart } from '@/scripts/openingsChart.js'; 
-import Papa from 'papaparse';
-import axios from 'axios';
+/* eslint-disable */
+import { fetchUserData } from '@/scripts/myUtils.js'; 
+import { processOpeningsData, getOpeningsData, makeOpeningsChart } from '@/scripts/openingsChart.js';
 
 export default {
     name: 'OpeningChart',
@@ -21,29 +21,14 @@ export default {
         }
     },
     mounted() {
-        this.readCSVData();
+        this.buildChart();
     },
     methods: {
-        readCSVData() {
-            axios.get('/data/testData.csv')
-        .then(response => {
-          let csv = response.data;
-          Papa.parse(csv, {
-            header: true,
-            complete: (results) => {
-              this.csvData = results.data;
-              let csvObj = JSON.parse(JSON.stringify(this.csvData));
-              let openingsData = processOpeningsData(csvObj, 10) 
-              makeOpeningsChart(openingsData);
-            }
-          });
-        })
-        .catch(error => {
-          console.log(error);
-        });
-
+        async buildChart(){
+            let archiveData = await fetchUserData("/data/testUser3.json")
+            makeOpeningsChart(archiveData.parsedGames)
+        }
     }
-}
 }
 
 </script>
